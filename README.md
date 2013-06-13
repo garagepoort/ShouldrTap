@@ -48,3 +48,68 @@ public class ErrorShoulder extends Shoulder<ErrorEvent>
 
 }
 ```
+
+Tapper
+======
+The tapper class can be compared to the Observable class in Java. It contains a list of shoulders. Shoulders can be registered or unregistered to this tapper. The tapper has a method “tapShoulders(AbstractEvent event)” . Calling this method notifies all the shoulders that can handle the event passed to the tapShoulders method. (that are registered to this tapper)
+
+```java
+public class ContactsModel extends Tapper {
+
+	private static final ContactsModel INSTANCE = new ContactsModel();
+	private List<Contact> contacts = new ArrayList<Contact>();
+
+	public static ContactsModel getInstance() {
+		return INSTANCE;
+	}
+
+	private ContactsModel() {
+	}
+
+	public void setContacts(List<Contact> contacts) {
+		this.contacts = contacts;
+		ContactListUpdatedEvent event = new ContactListUpdatedEvent();
+		event.setData(contacts);
+		tapShoulders(event);
+	}
+
+	public List<Contact> getContacts() {
+		return Collections.unmodifiableList(contacts);
+	}
+
+	public void addContact(Contact contact) {
+		if (!contacts.contains(contact)) {
+			contacts.add(contact);
+			ContactListUpdatedEvent event = new ContactListUpdatedEvent();
+			event.setData(contacts);
+			tapShoulders(event);
+		}
+	}
+}
+```
+
+AbstractEvent
+=============
+The abstract event is just simply a class you should extends if you want to make your own ustom events.
+
+```java
+public class ErrorEvent extends AbstractEvent<Exception>
+{
+	private Exception exception;
+
+
+	@Override
+	public Exception getData()
+	{
+		return exception;
+	}
+
+
+	@Override
+	public void setData(Exception exception)
+	{
+		this.exception = exception;
+	}
+
+}
+```
