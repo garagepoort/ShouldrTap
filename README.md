@@ -13,12 +13,15 @@ The Java Observer pattern has some flaws. One of its major flaws is that the upd
 Class explanation:
 =================
 
+```java
+public void test(){}
+```
+
 We tried to make a library that uses specific events and event handlers.
 Class overview
 
     Shoulder
     Tapper
-
     AbstractEvent
 
 Shoulder
