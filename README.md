@@ -13,9 +13,6 @@ The Java Observer pattern has some flaws. One of its major flaws is that the upd
 Class explanation:
 =================
 
-```java
-public void test(){}
-```
 
 We tried to make a library that uses specific events and event handlers.
 Class overview
@@ -28,3 +25,26 @@ Shoulder
 ========
 
 Shoulder can be considered as the event handler.  It uses generics to determine what kind of event it can handle.  When extending the Shoulder class, the update(T event) method should be overwritten. The constructor should also be implemented and the argument given to super() should be the classtype of the event this shoulder can handle.
+
+```java
+public class ErrorShoulder extends Shoulder<ErrorEvent>
+{
+    private Activity activity;
+
+
+	public ErrorShoulder(Activity activity)
+	{
+		super(ErrorEvent.class);
+		this.activity = activity;
+	}
+
+
+	@Override
+	public void update(ErrorEvent event)
+	{
+		System.out.println(event.getData().getMessage());
+		DialogCreator.showErrorDialog(event.getData().getMessage(), activity);
+	}
+
+}
+```
